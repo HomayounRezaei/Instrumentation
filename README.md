@@ -27,7 +27,6 @@ By pressing the button $$Y_1$$ :
 
 By pressing the button $$Y_2$$ :
 
-![image](https://github.com/user-attachments/assets/2fb6fb19-08d5-496e-9ccf-099816d788a5)
 
 As you can see, by pressing each $$Y_1$$ key, the green LED turns on and the red one turns off, and by pressing the $$Y_2$$ key, the red LED turns on and the green one turns off.
 
