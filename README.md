@@ -8,7 +8,7 @@
 * * Y1=SID%3 
 * * Y2=SID%2+4 
 * Connect two push buttons whose output is Up Pull to the $$Y_1$$ and $$Y_2$$ bases.
-## Task
+## Tasks
 Write a program that by pressing the push button corresponding to the base $$Y_1$$ , the green LED turns on and the red LED turns off, and by pressing the push button corresponding to the base $$Y_2$$, the green LED turns off and the red LED turns on.
 
 Write a program that by pressing the push button corresponding to pin $$Y_1$$, first the green LED will blink 5 times with a time interval of 044 milliseconds, then the red LED will blink 2 times with a time interval of 044 milliseconds, and at the end, all 2 LEDs will light up. By pressing the push button corresponding to the $$Y_2$$ base, the same thing will happen in reverse for the LEDs, and in the end, both will turn off. Simulate the written program using Proteus.
