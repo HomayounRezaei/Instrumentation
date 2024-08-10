@@ -30,6 +30,4 @@ By pressing the button $$Y_2$$ :
 
 As you can see, by pressing each $$Y_1$$ key, the green LED turns on and the red one turns off, and by pressing the $$Y_2$$ key, the red LED turns on and the green one turns off.
 
-![image](https://github.com/user-attachments/assets/0b2e1648-74a6-41a5-8ee7-f28122aa81b8)
-
 
