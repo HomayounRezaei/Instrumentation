@@ -1,4 +1,4 @@
-# 1. Setting up LM50 temperature sensor
+# 1. Setting up temperature sensor LM50
 ## _For this part, you need to set up an analog-to-digital converter (ADC). First, it is necessary to start this unit by searching on the Internet. Then do the following._
 
 ### Tasks
