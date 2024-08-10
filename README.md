@@ -1,1 +1,1 @@
-_Write a program that by pressing the push button corresponding to the base $$Y_1$$ , the green LED turns on and the red LED turns off, and by pressing the push button corresponding to the base $$Y_2$$, the green LED turns off and the red LED turns on._
+_Write a program that by pressing the push button corresponding to the base $$y$$ , the green LED turns on and the red LED turns off, and by pressing the push button corresponding to the base $$Y_2$$, the green LED turns off and the red LED turns on._
