@@ -1,70 +1,109 @@
-# 1. Digital input and output
-* On PORTA, define $$X_1$$, $$X_2$$ pins as digital output as follows.
-* * X1=SID%5 
-* * X2=SID%5+7 
-* * that the SID is the student number and % is the remaining operator.
-* Connect a green LED and a red LED to the above pins. It is necessary to consider the hardware in Observing the closing of the LED circuit. Implement the simplest possible circuit and explain why.
-* Define $$Y_1$$ and $$Y_2$$ pins as digital inputs on PORTB as follows.
-* * Y1=SID%3 
-* * Y2=SID%2+4 
-* Connect two push buttons whose output is Up Pull to the $$Y_1$$ and $$Y_2$$ bases.
-## Tasks
-Write a program that by pressing the push button corresponding to the base $$Y_1$$ , the green LED turns on and the red LED turns off, and by pressing the push button corresponding to the base $$Y_2$$, the green LED turns off and the red LED turns on.
+# 1. Setting up LM50 temperature sensor
+## _For this part, you need to set up an analog-to-digital converter (ADC). First, it is necessary to start this unit by searching on the Internet. Then do the following._
 
-Write a program that by pressing the push button corresponding to pin $$Y_1$$, first the green LED will blink 5 times with a time interval of 400 milliseconds, then the red LED will blink 2 times with a time interval of 100 milliseconds, and at the end, all 2 LEDs will light up. By pressing the push button corresponding to the $$Y_2$$ base, the same thing will happen in reverse for the LEDs, and in the end, both will turn off. Simulate the written program using Proteus.
+### Tasks
+_1. According to the datasheet of the sensor, specify the parameters of the measurement range, sensitivity, accuracy, and power supply and output bases._
+
+_2. Write a program that measures the temperature from -20 to 60 degrees Celsius with the highest possible accuracy and shows it on the screen with two decimal places. (The ADC reference voltage should be 5 volts)_
+
+_3. What is the accuracy and resolution of the temperature measurement system you designed, and analyze whether these two parameters are limited to the sensor or to the microcontroller?_
 
 ***
+1.
 
-**Microcontroller:**
+Measurement range: +125 to -40 degrees Celsius
 
-![image](https://github.com/user-attachments/assets/3d73cf30-8bf8-43c9-b8a2-2186f0a69b12)
+Sensitivity: 10mV/°C
 
-**Microcontroller in Proteus:**
+Accuracy: ±2 degrees Celsius
 
-![image](https://github.com/user-attachments/assets/a785a109-7b18-4a5b-971c-3ef037765a22)
+**Power and output bases:**
 
-By pressing the button $$Y_1$$ :
+Vcc: 5 volts
 
-![image](https://github.com/user-attachments/assets/ef5fa027-7964-43ee-aa15-cf705385eb7b)
+GND: Ground
 
-By pressing the button $$Y_2$$ :
+Vout: analog output that is connected to the ADC input of the microcontroller
 
-![image](https://github.com/user-attachments/assets/2fb6fb19-08d5-496e-9ccf-099816d788a5)
+2.
 
-As you can see, by pressing each $$Y_1$$ key, the green LED turns on and the red one turns off, and by pressing the $$Y_2$$ key, the red LED turns on and the green one turns off.
+**Convert voltage to temperature:**
 
-![image](https://github.com/user-attachments/assets/e6f20358-31f2-47cb-9eb2-cafe6a163261)
+The output of LM50 is analog, which can be converted to temperature using the following equation:
+
+$$V_out=10 mV/(°C) ×T°C+500mV$$
+
+Therefore, the temperature (T) is calculated as follows:
+
+$$T = (V_out-500mV)/(10mV/(°C))$$
+
+
+### Microcontroller:
+![image](https://github.com/user-attachments/assets/f8f03242-136c-4a2e-902d-b9648a0359b9)
+
+### Proteus:
+![image](https://github.com/user-attachments/assets/97ad6f90-c59e-4aac-ba70-b7ff14987607)
+
+### Output:
+![image](https://github.com/user-attachments/assets/87f25461-c8a9-4ef6-883e-257f31cf4fb4)
+![image](https://github.com/user-attachments/assets/50cb9a87-94e1-4784-9071-a7450f7344fc)
+![image](https://github.com/user-attachments/assets/b646db0d-9850-45e8-afc9-8659fe8e08b5)
+
+3.
+Microcontroller accuracy with 12 bits of data:
+
+Our voltage range is 80 volts, which the microcontroller can display with 4096 bits.
+
+$$80/4096= 0.01953125$$
+
+This resolution value is greater than the resolution of the sensor, so we are limited by the sensor first and then by the microcontroller.
 
 ***
+# 2. Setting up NTC thermistor 
+### _First, try to find the voltage output of the sensor for different inputs (if necessary, you must implement the improvement circuits related to the sensor) and report it as a table lookup. Then, try to find the relationship between voltage and temperature with the help of cftool._
+### _In the working range of the sensor, try to select an area that is relatively linear, and by changing the improvement circuit, make this area be mapped between 0 and 5 volts. Next, read this voltage with the help of the microcontroller and display the temperature with 2 decimal places on the LCD with the obtained relationship between voltage and temperature._
 
-# 2. Connecting the display to the microcontroller 
-The purpose of this section is to connect the 16x2 Alphanumeric LCD to port B of the microcontroller as shown below. Various libraries have been produced for this display.
+**Lookup Table:**
 
-![image](https://github.com/user-attachments/assets/a8c8b1cc-525d-4566-8081-96ce12fa4939)
+| Volt | 4.96 | 4.93 | 4.87 | 4.83 | 4.77 | 4.7  | 4.6  | 4.49 | 4.35 | 4.12 | 3.88 | 3.7  | 3.41 | 3.2  | 2.89 | 2.69 | 2.43 | 2.23 |
+|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|
+| Temp | -50  | -40  | -30  | -25  | -20  | -15  | -10  | -5   | 0    | 7    | 13   | 17   | 23   | 27   | 33   | 37   | 42   | 46   |
 
-i. By searching the internet, write a program that can be used in the first line of the name, and in the second line Display your student number. Simulate the written program using Proteus.
+| 2.04 | 1.81 | 1.6  | 1.42 | 1.25 | 1.1  | 0.89 | 0.74 | 0.64 | 0.53 | 0.44 | 0.35 | 0.27 | 0.21 | 0.17 |
+|------|------|------|------|------|------|------|------|------|------|------|------|------|------|------|
+| 50   | 55   | 60   | 65   | 70   | 75   | 83   | 90   | 96   | 103  | 110  | 120  | 130  | 140  | 150  |
 
-ii. Define 2 variables with arbitrary values, one int, and the other float, and write a program that displays an integer number on the first line of the LCD and a decimal number with 2 decimal places on the second line. Can you display decimal numbers on LCD? Find the solution by searching the internet. 
 
-iii. Consider the previous question. Write a program that doubles all 2 variables every 1 second and displays them on the LCD. (x = 2*x) What do you see after the passage of time? Justify what is happening. In your opinion, how can larger numbers (for example, a 12-digit number) be displayed?
+**Voltage diagram according to temperature:**
+![image](https://github.com/user-attachments/assets/ad4dc0b2-b468-4cc1-8149-9601014778d9)
 
-**Microcontroller in Proteus:**
+It is almost linear from 10 degrees to 70 degrees.
 
-![image](https://github.com/user-attachments/assets/c765fbdb-f3ef-4c00-a650-2974fb9407eb)
+We need a non-inverting op-amp to be able to do the mapping:
 
-**Outputs:**
+![image](https://github.com/user-attachments/assets/576f90e3-5337-4834-a302-e17622cff580)
 
-![image](https://github.com/user-attachments/assets/a8e1de2f-cfdd-4473-95c2-57d0ea8b7379)
+$$Av=1+R_2/R_1$$ 
 
-![image](https://github.com/user-attachments/assets/40b7c84e-43c6-4c32-97b4-563c976eafcc)
+The voltage at a temperature of 10 degrees is approximately 1.25 volts.
 
-With the itoa command, we convert the integer number to character and display it.
+The voltage at a temperature of 70 degrees is almost 4 volts.
 
-To convert the flute into our own character, we created a ftoa function and used it to display the flute number as a character.
+So:
 
-With the itoa command, we convert the integer number into a character and display it as in the previous step.
+$$Av=5/(4-1.25)=1+R_2/R_1 ⟹R_2/R_1 =  0.818181$$
 
-To convert the flute into our own character, we created a ftoa function and used it to display the flute number as a character.
+$$R_1=10KΩ  ,   R_2=8.18181KΩ$$
+
+Now we also need a differential op-amp to remove the DC offset and bring the voltage from 2 to 7 volts to 0 to 5 volts:
+
+Final shape:
+
+![image](https://github.com/user-attachments/assets/6119bb9d-cbb4-4de7-a29f-24f4a089468f)
 
 **Output:**
-![image](https://github.com/user-attachments/assets/e567c737-3781-4641-b299-ac2c19cc1cc1)
+
+![image](https://github.com/user-attachments/assets/d2143c69-d273-47c3-a898-cf073ba00ef5)
+![image](https://github.com/user-attachments/assets/e01c7cbd-3027-4a65-a8d3-32d9b3b6b471)
+
+***
